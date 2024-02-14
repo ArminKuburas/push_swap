@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 03:30:12 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/14 07:26:08 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/14 07:51:14 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	argument_creator(int argc, char **argv, char **args)
 	while (i < argc)
 	{
 		temp_args = ft_split(argv[i], ' ');
+		ft_printf("inside argument_creator after ft_split\n");
 		if (!temp_args)
 		{
 			exit_handler(MALLOC_ERROR);
@@ -35,11 +36,10 @@ void	argument_creator(int argc, char **argv, char **args)
 				ft_free_substrings(&args);
 		}
 		args = join2darrays(temp_args, args);
+		ft_printf("inside argument_creator after join2darrays\n");
+		ft_free_substrings(&temp_args);
 		if (!args)
-		{
-			ft_free_substrings(&temp_args);
 			exit_handler(MALLOC_ERROR);
-		}
 		i++;
 	}
 }
@@ -52,6 +52,7 @@ void	turn_into_stack(long *stack_a, char **args)
 	while (args[i])
 	{
 		stack_a[i] = ft_atoi(args[i]);
+		ft_printf("stack_a[i]: %ld\n", stack_a[i]);
 		if (stack_a[i] > INT_MAX || stack_a[i] < INT_MIN)
 		{
 			ft_free_substrings(&args);
@@ -84,8 +85,11 @@ void	check_arguments(char **args)
 	int	i;
 
 	i = 0;
+	ft_printf("args[0]: %s\n", args[0]);
+	ft_printf("inside check_arguments\n");
 	while (args[i])
 	{
+		ft_printf("args[i]: %s\n", args[i]);
 		if (ft_strlen(args[i]) > 11)
 		{
 			ft_free_substrings(&args);
@@ -105,10 +109,15 @@ void	initialize_stacks(long *stack_a, long *stack_b, int argc, char **argv)
 	char	**args;
 
 	args = NULL;
+	ft_printf("Inside initialize_stacks\n");
 	stack_allocator(stack_a, argc);
+	ft_printf("Inside initialize_stacks after stack_allocator\n");
 	argument_creator(argc, argv, args);
+	ft_printf("Inside initialize_stacks after argument_creator\n");
 	check_arguments(args);
+	ft_printf("Inside initialize_stacks after check_arguments\n");
 	turn_into_stack(stack_a, args);
+	ft_printf("Inside initialize_stacks after turn_into_stack\n");
 	stack_b = (long *)malloc(sizeof(long) * (argc - 1));
 	if (!stack_b)
 	{
