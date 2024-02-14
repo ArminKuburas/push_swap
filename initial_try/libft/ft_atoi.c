@@ -6,9 +6,11 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:03:34 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/06 05:01:32 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/14 07:06:47 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 static long	parse_digits(const char *str, int sign)
 {
@@ -22,9 +24,9 @@ static long	parse_digits(const char *str, int sign)
 		temp = result;
 		result = result * 10 + (*str - '0');
 		if (sign == 1 && temp > result)
-			return (-1);
+			return (2147483648);
 		else if (sign == -1 && temp > result)
-			return (0);
+			return (2147483648);
 		str++;
 	}
 	return (result);
@@ -46,5 +48,7 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	result = parse_digits(str, sign);
-	return ((int)(result * sign));
+	if (result == 2147483648)
+		return (2147483648);
+	return (result * sign);
 }
