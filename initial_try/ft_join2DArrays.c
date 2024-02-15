@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 02:47:53 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/15 03:04:33 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/15 05:52:25 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	help_strdup(char **arr1, char **arr2, char **new)
 	return (0);
 }
 
-char	**join2darrays(char **arr1, char **arr2)
+char	**join2darrays(char **old_arr, char **arr1, char **arr2)
 {
 	char	**new;
 	int		i;
@@ -58,5 +58,7 @@ char	**join2darrays(char **arr1, char **arr2)
 		return (NULL);
 	if (help_strdup(arr1, arr2, new) == 1)
 		return (NULL);
+	if (old_arr)
+		ft_free_substrings(&old_arr);
 	return (new);
 }

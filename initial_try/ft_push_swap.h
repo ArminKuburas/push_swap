@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:19:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/15 04:31:33 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/15 05:55:05 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ enum e_errors
 };
 
 void	initialize_stacks(long **stack_a, long **stack_b, int argc, char **argv);
-char	**join2darrays(char **arr1, char **arr2);
+char	**join2darrays(char **old_arr, char **arr1, char **arr2);
 void	ft_free_substrings(char ***arr_str);
 void	exit_handler(int error);
 
