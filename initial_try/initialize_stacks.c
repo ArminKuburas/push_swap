@@ -6,22 +6,40 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 03:30:12 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/15 06:49:17 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/16 01:14:19 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void	stack_allocator(long **stack_a, int amount_of_arguments)
+void	ft_bmax(long *arr, int size)
 {
-	ft_printf("inside stack_allocator\n");
-	ft_printf("amount_of_arguments = %d\n", amount_of_arguments);
-	*stack_a = (long *)malloc(sizeof(long) * (amount_of_arguments + 1));
-	if (!(*stack_a))
-		exit_handler(MALLOC_ERROR);
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		arr[i] = 2147483648;
+		i++;
+	}
 }
 
-void	argument_creator(int argc, char **argv, char ***args)
+int	stack_allocator(long **stack_a, long **stack_b, int amount_of_arguments)
+{
+	*stack_a = (long *)malloc(sizeof(long) * (amount_of_arguments + 1));
+	if (!(*stack_a))
+		return (MALLOC_ERROR);
+	*stack_b = (long *)malloc(sizeof(long) * (amount_of_arguments + 1));
+	if (!*stack_b)
+	{
+		free(*stack_a);
+		return (MALLOC_ERROR);
+	}
+	ft_bmax(*stack_b, amount_of_arguments + 1);
+	return (0);
+}
+
+int	argument_creator(int argc, char **argv, char ***args)
 {
 	int		i;
 	char	**temp_args;
@@ -31,38 +49,33 @@ void	argument_creator(int argc, char **argv, char ***args)
 	{
 		temp_args = ft_split(argv[i], ' ');
 		if (!temp_args)
-		{
-			exit_handler(MALLOC_ERROR);
-		}
+			return (MALLOC_ERROR);
 		*args = join2darrays(*args, *args, temp_args);
 		ft_free_substrings(&temp_args);
-		ft_printf("after free\n");
 		if (!args)
-			exit_handler(MALLOC_ERROR);
+			return (MALLOC_ERROR);
 		i++;
 	}
+	return (0);
 }
 
-void	turn_into_stack(long **stack_a, char **args)
+int	turn_into_stack(long **stack_a, char **args)
 {
 	int	i;
 
 	i = 0;
-	ft_printf("inside turn_into_stack\n");
 	while (args[i])
 	{
 		(*stack_a)[i] = ft_atoi(args[i]);
-		ft_printf("(*stack_a)[%d] = %d\n", i, (*stack_a)[i]);
 		if ((*stack_a)[i] > INT_MAX || (*stack_a)[i] < INT_MIN)
 		{
-			ft_free_substrings(&args);
 			free(*stack_a);
-			exit_handler(WRONG_ARGUMENTS);
+			return (WRONG_ARGUMENTS);
 		}
 		i++;
 	}
 	(*stack_a)[i] = 2147483648;
-	ft_printf("(*stack_a)[%d] = %u\n", i, (*stack_a)[i]);
+	return (0);
 }
 
 int	ft_isinteger(char *str)
@@ -89,18 +102,11 @@ int	check_arguments(char **args)
 	while (args[i])
 	{
 		if (ft_strlen(args[i]) > 11)
-		{
-			ft_free_substrings(&args);
 			return (-1);
-		}
 		if (!ft_isinteger(args[i]))
-		{
-			ft_free_substrings(&args);
 			return (-1);
-		}
 		i++;
 	}
-	ft_printf("inside check_arguments i = %d\n", i);
 	return (i);
 }
 
@@ -110,32 +116,24 @@ void	initialize_stacks(long **stack_a, long **stack_b, int argc, char **argv)
 	int		i;
 
 	args = NULL;
-	argument_creator(argc, argv, &args);
-	i = 0;
-	ft_printf("after argument_creator\n");
-	while (args[i])
-	{
-		ft_printf("%s\n", args[i]);
-		i++;
-	}
-	ft_printf("after while args[i] = %s\n", args[i]);
+	if (argument_creator(argc, argv, &args) == MALLOC_ERROR)
+		exit_handler(MALLOC_ERROR);
 	i = check_arguments(args);
 	if (i == -1)
-		exit(1);
-	stack_allocator(stack_a, i);
-	turn_into_stack(stack_a, args);
-	*stack_b = (long *)malloc(sizeof(long) * (argc - 1));
-	if (!*stack_b)
 	{
-		free(stack_a);
+		ft_free_substrings(&args);
+		exit_handler(WRONG_ARGUMENTS);
+	}
+	if (stack_allocator(stack_a, stack_b, i) == MALLOC_ERROR)
+	{
+		ft_free_substrings(&args);
 		exit_handler(MALLOC_ERROR);
 	}
+	i = turn_into_stack(stack_a, args);
 	ft_free_substrings(&args);
-	int j = 0;
-	while (j < i)
+	if (i == WRONG_ARGUMENTS)
 	{
-		ft_printf("stack_a[%d] = %d\n", j, (*stack_a)[j]);
-		j++;
+		free(*stack_b);
+		exit_handler(WRONG_ARGUMENTS);
 	}
-	ft_printf("stack_a[%d] = %u\n", j, (*stack_a)[j]);
 }
