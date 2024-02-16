@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 15:03:34 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/15 05:19:45 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/16 04:38:20 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,18 @@ static long	parse_digits(const char *str, int sign)
 		temp = result;
 		result = result * 10 + (*str - '0');
 		if (sign == 1 && temp > result)
-			return (2147483648);
+			return (INT_MAX + 1L);
 		else if (sign == -1 && temp > result)
-			return (2147483648);
+			return (INT_MIN - 1L);
 		str++;
 	}
-	return (result);
+	return (result * sign);
 }
 
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
-	long	result;
 	int		sign;
 
-	result = 0;
 	sign = 1;
 	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
 		str++;
@@ -47,8 +45,5 @@ int	ft_atoi(const char *str)
 			sign = -1;
 		str++;
 	}
-	result = parse_digits(str, sign);
-	if (result == 2147483648)
-		return (2147483648);
-	return (result * sign);
+	return (parse_digits(str, sign));
 }
