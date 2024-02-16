@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 03:30:12 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/16 04:40:23 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:21:51 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	check_arguments(char **args)
 	return (i);
 }
 
-void	initialize_stacks(long **stack_a, long **stack_b, int argc, char **argv)
+void	init_stacks(long **stack_a, long **stack_b, int argc, char **argv)
 {
 	char	**args;
 	int		i;
