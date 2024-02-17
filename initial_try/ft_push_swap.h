@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:19:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/16 10:23:51 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/17 04:54:19 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,8 @@ void	init_stacks(long **stack_a, long **stack_b, int argc, char **argv);
 char	**join2darrays(char **old_arr, char **arr1, char **arr2);
 void	ft_free_substrings(char ***arr_str);
 void	exit_handler(int error);
+void	swap_a(long *stack_a);
+void	swap_b(long *stack_b);
+void	swap_both(long *stack_a, long *stack_b);
 
 #endif
