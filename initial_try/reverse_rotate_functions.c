@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:34:06 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/17 05:34:33 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/18 07:45:20 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	reverse_rotate_a(long *stack_a)
 	i = 0;
 	while (stack_a[i] < 2147483648)
 		i++;
-	tmp = stack_a[i - 1];
+	i--;
+	tmp = stack_a[i];
 	while (i > 0)
 	{
 		stack_a[i] = stack_a[i - 1];
@@ -43,7 +44,8 @@ void	reverse_rotate_b(long *stack_b)
 	i = 0;
 	while (stack_b[i] < 2147483648)
 		i++;
-	tmp = stack_b[i - 1];
+	i--;
+	tmp = stack_b[i];
 	while (i > 0)
 	{
 		stack_b[i] = stack_b[i - 1];
