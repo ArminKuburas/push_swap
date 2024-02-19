@@ -6,14 +6,14 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:19:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/18 07:27:57 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/19 11:05:55 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PUSH_SWAP_H
 # define FT_PUSH_SWAP_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 enum e_errors
 {

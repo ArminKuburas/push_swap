@@ -9,12 +9,13 @@ PROGRAM = push_swap
 SRCS = $(SRCDIR)/ft_free_substrings.c \
 	$(SRCDIR)/ft_join2DArrays.c \
 	$(SRCDIR)/ft_push_swap.c \
-	$(SRCDIR)/initiaize_stacks.c \
+	$(SRCDIR)/initialize_stacks.c \
 	$(SRCDIR)/push_functions.c \
 	$(SRCDIR)/reverse_rotate_functions.c \
 	$(SRCDIR)/rotate_functions.c \
 	$(SRCDIR)/sort_algorithm.c \
 	$(SRCDIR)/swap_functions.c \
+	$(SRCDIR)/exit_handler.c \
 
 LIBFT_SRC = $(LIBFTDIR)/ft_atoi.c \
 		$(LIBFTDIR)/ft_bzero.c \
