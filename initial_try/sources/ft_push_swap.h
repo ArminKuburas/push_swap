@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:19:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/19 11:05:55 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:18:01 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ enum e_errors
 	WRONG_ARGUMENTS = 3
 };
 
+typedef struct s_move_count
+{
+	int		rotate_a;
+	int		rotate_b;
+	int		rotate_both;
+	int		reverse_rotate_a;
+	int		reverse_rotate_b;
+	int		reverse_rotate_both;
+	int		total;
+}	t_move_count;
+
 typedef struct s_stack_info
 {
 	int		amount_of_elements;
@@ -29,7 +40,6 @@ typedef struct s_stack_info
 	int		amount_of_elements_b;
 	int		max_b;
 	int		min_b;
-	int		move_cost;
 }	t_data;
 
 void	init_stacks(long **stack_a, long **stack_b, int argc, char **argv);
