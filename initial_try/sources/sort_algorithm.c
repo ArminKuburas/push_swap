@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 10:09:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/19 22:06:26 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/20 08:28:00 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,21 @@ void	sort_small_stack(long **stack_a, int amount_of_elements)
 		sort_three(stack_a);
 }
 
-void	b_cost(long number, long *stack_b, t_move_count *count, int max_b)
+void	find_the_number(long *stack_b, int max_b)
 {
 	int		i;
-	int		lever;
+
+	i = 0;
+	while (stack_b[i] != max_b)
+		i++;
+	return (i);
+}
+
+void	b_cost(long number, long *stack_b, t_move_count *count, int max_b)
+{
+	int	i;
+	int	lever;
+	int	amount;
 
 	i = 0;
 	lever = 0;
@@ -107,15 +118,12 @@ void	b_cost(long number, long *stack_b, t_move_count *count, int max_b)
 		i++;
 	}
 	if (lever == 0)
-	{
-		i = function_name_here(stack_b, max_b);
-		while (stack_b[i] != max_b)
-		{
-			if (number > stack_b[i])
-				break ;
-			i++;
-		}
-	}
+		i = find_the_number(stack_b, max_b);
+	amount = count_elements(stack_b);
+	if (amount - i + 1 < i)
+		count->reverse_rotate_b = amount - i + 1;
+	else
+		count->rotate_b = i;
 }
 
 t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
@@ -123,11 +131,36 @@ t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 	t_move_count	count;
 
 	count = (t_move_count){};
-	if (amount - i + 1 < i)
-		count.reverse_rotate_a = amount - i + 1;
+	if (data->amount_of_elements_a - i + 1 < i)
+		count.reverse_rotate_a = data->amount_of_elements_a - i + 1;
 	else
 		count.rotate_a = i;
 	b_cost(stack_a[i], stack_b, &count, data->max_b);
+	if (count.rotate_a > count.rotate_b)
+	{
+		count.rotate_both = count.rotate_b;
+		count.rotate_b = 0;
+		count.rotate_a -= count.rotate_b;
+		
+	}
+	else
+	{
+		count.rotate_both = count.rotate_a;
+		count.rotate_a = 0;
+		count.rotate_b -= count.rotate_a;
+	}
+	if (count.reverse_rotate_a > count.reverse_rotate_b)
+	{
+		count.reverse_rotate_both = count.reverse_rotate_b;
+		count.reverse_rotate_b = 0;
+		count.reverse_rotate_a -= count.reverse_rotate_b;
+	}
+	else
+	{
+		count.reverse_rotate_both = count.reverse_rotate_a;
+		count.reverse_rotate_a = 0;
+		count.reverse_rotate_b -= count.reverse_rotate_a;
+	}
 	return (count);
 }
 
