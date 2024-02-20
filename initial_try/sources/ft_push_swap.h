@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:19:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/19 20:18:01 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:33:45 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ typedef struct s_stack_info
 	int		amount_of_elements;
 	int		amount_of_elements_a;
 	int		amount_of_elements_b;
-	int		max_b;
-	int		min_b;
+	long	min_a;
+	long	min_b;
+	long	max_a;
+	long	max_b;
 }	t_data;
 
 void	init_stacks(long **stack_a, long **stack_b, int argc, char **argv);
@@ -55,8 +57,8 @@ void	rotate_both(long *stack_a, long *stack_b);
 void	reverse_rotate_a(long *stack_a);
 void	reverse_rotate_b(long *stack_b);
 void	reverse_rotate_both(long *stack_a, long *stack_b);
-void	push_a(long *stack_a, long *stack_b);
-void	push_b(long *stack_a, long *stack_b);
+void	push_into_a(long *stack_a, long *stack_b);
+void	push_into_b(long *stack_a, long *stack_b);
 void	sort_stack(long **stack_a, long **stack_b);
 
 

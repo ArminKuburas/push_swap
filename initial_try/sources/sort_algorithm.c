@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 10:09:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/20 09:32:55 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:13:37 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	initial_push(long *stack_a, long *stack_b, t_data *data)
 	i = 0;
 	while (data->amount_of_elements_a > 3 && i < 2)
 	{
-		push_b(stack_a, stack_b);
+		push_into_b(stack_a, stack_b);
 		data->amount_of_elements_a--;
 		data->amount_of_elements_b++;
 		i++;
@@ -88,7 +88,7 @@ void	sort_small_stack(long **stack_a, int amount_of_elements)
 		sort_three(stack_a);
 }
 
-void	find_the_number(long *stack_b, int max_b)
+int	find_the_number(long *stack_b, int max_b)
 {
 	int		i;
 
@@ -98,7 +98,7 @@ void	find_the_number(long *stack_b, int max_b)
 	return (i);
 }
 
-void	b_cost(long number, long *stack_b, t_move_count *count, int max_b)
+void	array_cost(long number, long *array, t_move_count *count, long max)
 {
 	int	i;
 	int	lever;
@@ -106,11 +106,11 @@ void	b_cost(long number, long *stack_b, t_move_count *count, int max_b)
 
 	i = 0;
 	lever = 0;
-	while (stack_b[i] != max_b)
+	while (array[i] != max)
 		i++;
-	while (stack_b[i] < 2147483648)
+	while (array[i] < 2147483648)
 	{
-		if (number > stack_b[i])
+		if (number > array[i])
 		{
 			lever = 1;
 			break ;
@@ -118,12 +118,40 @@ void	b_cost(long number, long *stack_b, t_move_count *count, int max_b)
 		i++;
 	}
 	if (lever == 0)
-		i = find_the_number(stack_b, max_b);
-	amount = count_elements(stack_b);
+		i = find_the_number(array, max);
+	amount = count_elements(array);
 	if (amount - i + 1 < i)
 		count->reverse_rotate_b = amount - i + 1;
 	else
 		count->rotate_b = i;
+}
+
+void	array_cost_b(long number, long *array, t_move_count *count, long max)
+{
+	int	i;
+	int	lever;
+	int	amount;
+
+	i = 0;
+	lever = 0;
+	while (array[i] != max)
+		i++;
+	while (array[i] < 2147483648)
+	{
+		if (number > array[i])
+		{
+			lever = 1;
+			break ;
+		}
+		i++;
+	}
+	if (lever == 0)
+		i = find_the_number(array, max);
+	amount = count_elements(array);
+	if (amount - i + 1 < i)
+		count->reverse_rotate_a = amount - i + 1;
+	else
+		count->rotate_a = i;
 }
 
 void	final_calculations(t_move_count *count)
@@ -140,7 +168,7 @@ void	final_calculations(t_move_count *count)
 		count->rotate_a = 0;
 		count->rotate_b -= count->rotate_a;
 	}
-	if (count->reverse_rotate_a > count.reverse_rotate_b)
+	if (count->reverse_rotate_a > count->reverse_rotate_b)
 	{
 		count->reverse_rotate_both = count->reverse_rotate_b;
 		count->reverse_rotate_b = 0;
@@ -163,12 +191,67 @@ t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 		count.reverse_rotate_a = data->amount_of_elements_a - i + 1;
 	else
 		count.rotate_a = i;
-	b_cost(stack_a[i], stack_b, &count, data->max_b);
+	array_cost(stack_a[i], stack_b, &count, data->max_b);
 	final_calculations(&count);
 	count.total = count.rotate_a + count.rotate_b + count.rotate_both
 		+ count.reverse_rotate_a + count.reverse_rotate_b
 		+ count.reverse_rotate_both;
 	return (count);
+}
+
+t_move_count	push_cost_b(long *stack_a, long *stack_b, int i, t_data *data)
+{
+	t_move_count	count;
+
+	count = (t_move_count){};
+	if (data->amount_of_elements_b - i + 1 < i)
+		count.reverse_rotate_b = data->amount_of_elements_b - i + 1;
+	else
+		count.rotate_b = i;
+	array_cost_b(stack_b[i], stack_a, &count, data->max_a);
+	final_calculations(&count);
+	count.total = count.rotate_a + count.rotate_b + count.rotate_both
+		+ count.reverse_rotate_a + count.reverse_rotate_b
+		+ count.reverse_rotate_both;
+	return (count);
+}
+
+void	use_rotate(t_move_count cheapest, long **stack_a, long **stack_b)
+{
+	while (cheapest.rotate_a > 0)
+	{
+		rotate_a(*stack_a);
+		cheapest.rotate_a--;
+	}
+	while (cheapest.rotate_b > 0)
+	{
+		rotate_b(*stack_b);
+		cheapest.rotate_b--;
+	}
+	while (cheapest.rotate_both > 0)
+	{
+		rotate_both(*stack_a, *stack_b);
+		cheapest.rotate_both--;
+	}
+}
+
+void	use_rev_rotate(t_move_count cheapest, long **stack_a, long **stack_b)
+{
+	while (cheapest.reverse_rotate_a > 0)
+	{
+		reverse_rotate_a(*stack_a);
+		cheapest.reverse_rotate_a--;
+	}
+	while (cheapest.reverse_rotate_b > 0)
+	{
+		reverse_rotate_b(*stack_b);
+		cheapest.reverse_rotate_b--;
+	}
+	while (cheapest.reverse_rotate_both > 0)
+	{
+		reverse_rotate_both(*stack_a, *stack_b);
+		cheapest.reverse_rotate_both--;
+	}
 }
 
 void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
@@ -186,6 +269,13 @@ void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 			cheapest = tmp;
 		i++;
 	}
+	use_rotate(cheapest, stack_a, stack_b);
+	use_rev_rotate(cheapest, stack_a, stack_b);
+	if (*stack_a[0] > data->max_b)
+		data->max_b = *stack_a[0];
+	if (*stack_a[0] < data->min_b)
+		data->min_b = *stack_a[0];
+	push_into_b(*stack_a, *stack_b);
 }
 
 void	initial_sort(long **stack_a, long **stack_b, t_data *data)
@@ -194,7 +284,86 @@ void	initial_sort(long **stack_a, long **stack_b, t_data *data)
 	{
 		push_cheapest(stack_a, stack_b, data);
 		data->amount_of_elements_a--;
+		data->amount_of_elements_b++;
 	}
+}
+
+void	push_cheapest_b(long **stack_a, long **stack_b, t_data *data)
+{
+	int				i;
+	t_move_count	cheapest;
+	t_move_count	tmp;
+
+	i = 1;
+	cheapest = push_cost_b(*stack_a, *stack_b, 0, data);
+	while (i < data->amount_of_elements_a)
+	{
+		tmp = push_cost_b(*stack_a, *stack_b, i, data);
+		if (tmp.total < cheapest.total)
+			cheapest = tmp;
+		i++;
+	}
+	use_rotate(cheapest, stack_a, stack_b);
+	use_rev_rotate(cheapest, stack_a, stack_b);
+	if (*stack_b[0] > data->max_a)
+		data->max_a = *stack_b[0];
+	if (*stack_a[0] < data->min_a)
+		data->min_a = *stack_b[0];
+	push_into_a(*stack_a, *stack_b);
+}
+
+void	push_back(long *stack_a, long *stack_b, t_data *data)
+{
+	data->max_a = stack_a[2];
+	data->min_a = stack_a[0];
+	while (data->amount_of_elements_b > 0)
+	{
+		push_cheapest_b(&stack_a, &stack_b, data);
+		data->amount_of_elements_a++;
+		data->amount_of_elements_b--;
+	}
+}
+
+void	check_order(long *stack_a, long min_value, int amount)
+{
+	int	i;
+	int	rotate_amount;
+
+	i = 0;
+	while (stack_a[i] != min_value)
+	{
+		i++;
+	}
+	if (amount - i + 1 < i)
+	{
+		rotate_amount = amount - i + 1;
+		while (rotate_amount > 0)
+		{
+			reverse_rotate_a(stack_a);
+			rotate_amount--;
+		}
+	}
+	else
+	{
+		while (i > 0)
+		{
+			rotate_a(stack_a);
+			i--;
+		}
+	}
+}
+
+void	print_stacks(long *stack_a, long *stack_b)
+{
+	int	i;
+
+	i = -1;
+	ft_printf("we are inside print_stacks\n");
+	while (stack_a[i++] < 2147483648)
+		ft_printf("This is stack_a[%d] = %d\n", i, stack_a[i]);
+	i = -1;
+	while (stack_b[i++] < 2147483648)
+		ft_printf("This is stack_b[%d] = %d\n", i, stack_b[i]);
 }
 
 void	sort_stack(long **stack_a, long **stack_b)
@@ -204,16 +373,25 @@ void	sort_stack(long **stack_a, long **stack_b)
 	data = (t_data){};
 	data.amount_of_elements = count_elements(*stack_a);
 	data.amount_of_elements_a = data.amount_of_elements;
-	if (*stack_b)
-		data.amount_of_elements_b = count_elements(*stack_b);
 	if (data.amount_of_elements <= 3)
 		sort_small_stack(stack_a, data.amount_of_elements);
 	else
 	{
-		ft_printf("This hasn't been implemented yet\n");
-	/*	initial_push(stack_a, stack_b, &data);
+		print_stacks(*stack_a, *stack_b);
+		ft_printf("Before initial_push\n");
+		initial_push(*stack_a, *stack_b, &data);
+		ft_printf("After initial_push\n");
+		print_stacks(*stack_a, *stack_b);
 		initial_sort(stack_a, stack_b, &data);
+		ft_printf("After initial_sort\n");
+		print_stacks(*stack_a, *stack_b);
 		sort_three(stack_a);
-		check_order(stack_a); */
+		ft_printf("After sort_three\n");
+		print_stacks(*stack_a, *stack_b);
+		push_back(*stack_a, *stack_b, &data);
+		ft_printf("After push_back\n");
+		print_stacks(*stack_a, *stack_b);
+		check_order(*stack_a, data.min_a, data.amount_of_elements_a);
+		ft_printf("After check_order\n");
 	}
 }

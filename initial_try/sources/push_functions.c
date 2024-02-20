@@ -6,13 +6,13 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:17:08 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/17 05:17:17 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:28:26 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void	push_a(long *stack_a, long *stack_b)
+void	push_into_a(long *stack_a, long *stack_b)
 {
 	int		i;
 
@@ -36,7 +36,7 @@ void	push_a(long *stack_a, long *stack_b)
 	}
 }
 
-void	push_b(long *stack_a, long *stack_b)
+void	push_into_b(long *stack_a, long *stack_b)
 {
 	int		i;
 
