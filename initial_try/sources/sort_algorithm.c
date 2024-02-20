@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 10:09:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/20 08:28:00 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/20 09:32:55 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,34 @@ void	b_cost(long number, long *stack_b, t_move_count *count, int max_b)
 		count->rotate_b = i;
 }
 
+void	final_calculations(t_move_count *count)
+{
+	if (count->rotate_a > count->rotate_b)
+	{
+		count->rotate_both = count->rotate_b;
+		count->rotate_b = 0;
+		count->rotate_a -= count->rotate_b;
+	}
+	else if (count->rotate_a < count->rotate_b)
+	{
+		count->rotate_both = count->rotate_a;
+		count->rotate_a = 0;
+		count->rotate_b -= count->rotate_a;
+	}
+	if (count->reverse_rotate_a > count.reverse_rotate_b)
+	{
+		count->reverse_rotate_both = count->reverse_rotate_b;
+		count->reverse_rotate_b = 0;
+		count->reverse_rotate_a -= count->reverse_rotate_b;
+	}
+	else if (count->reverse_rotate_a < count->reverse_rotate_b)
+	{
+		count->reverse_rotate_both = count->reverse_rotate_a;
+		count->reverse_rotate_a = 0;
+		count->reverse_rotate_b -= count->reverse_rotate_a;
+	}
+}
+
 t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 {
 	t_move_count	count;
@@ -136,31 +164,10 @@ t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 	else
 		count.rotate_a = i;
 	b_cost(stack_a[i], stack_b, &count, data->max_b);
-	if (count.rotate_a > count.rotate_b)
-	{
-		count.rotate_both = count.rotate_b;
-		count.rotate_b = 0;
-		count.rotate_a -= count.rotate_b;
-		
-	}
-	else
-	{
-		count.rotate_both = count.rotate_a;
-		count.rotate_a = 0;
-		count.rotate_b -= count.rotate_a;
-	}
-	if (count.reverse_rotate_a > count.reverse_rotate_b)
-	{
-		count.reverse_rotate_both = count.reverse_rotate_b;
-		count.reverse_rotate_b = 0;
-		count.reverse_rotate_a -= count.reverse_rotate_b;
-	}
-	else
-	{
-		count.reverse_rotate_both = count.reverse_rotate_a;
-		count.reverse_rotate_a = 0;
-		count.reverse_rotate_b -= count.reverse_rotate_a;
-	}
+	final_calculations(&count);
+	count.total = count.rotate_a + count.rotate_b + count.rotate_both
+		+ count.reverse_rotate_a + count.reverse_rotate_b
+		+ count.reverse_rotate_both;
 	return (count);
 }
 
@@ -170,8 +177,15 @@ void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 	t_move_count	cheapest;
 	t_move_count	tmp;
 
-	i = 0;
-	cheapest = push_cost(*stack_a, *stack_b, i, data);
+	i = 1;
+	cheapest = push_cost(*stack_a, *stack_b, 0, data);
+	while (i < data->amount_of_elements_a)
+	{
+		tmp = push_cost(*stack_a, *stack_b, i, data);
+		if (tmp.total < cheapest.total)
+			cheapest = tmp;
+		i++;
+	}
 }
 
 void	initial_sort(long **stack_a, long **stack_b, t_data *data)
