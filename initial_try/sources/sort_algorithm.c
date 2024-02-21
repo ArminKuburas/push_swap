@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 10:09:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/20 16:13:37 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 09:16:26 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ void	sort_small_stack(long **stack_a, int amount_of_elements)
 		sort_three(stack_a);
 }
 
-int	find_the_number(long *stack_b, int max_b)
+int	find_the_number(long *stack_b, int value)
 {
 	int		i;
 
 	i = 0;
-	while (stack_b[i] != max_b)
+	while (stack_b[i] != value)
 		i++;
 	return (i);
 }
@@ -120,13 +120,28 @@ void	array_cost(long number, long *array, t_move_count *count, long max)
 	if (lever == 0)
 		i = find_the_number(array, max);
 	amount = count_elements(array);
-	if (amount - i + 1 < i)
-		count->reverse_rotate_b = amount - i + 1;
+	if (amount - i < i)
+		count->reverse_rotate_b = amount - i;
 	else
 		count->rotate_b = i;
 }
 
-void	array_cost_b(long number, long *array, t_move_count *count, long max)
+int	find_the_number_min(long number, long *array, long min)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != min)
+	{
+		if (number < array[i])
+			break ;
+		i++;
+	}
+	ft_printf("This is i = %d\n", i);
+	return (i);
+}
+
+void	array_cost_b(long number, long *array, t_move_count *count, long min)
 {
 	int	i;
 	int	lever;
@@ -134,22 +149,26 @@ void	array_cost_b(long number, long *array, t_move_count *count, long max)
 
 	i = 0;
 	lever = 0;
-	while (array[i] != max)
+	while (array[i] != min)
 		i++;
+	ft_printf("Inside array_cost_b. After the while loop that tries to find the min value inside stack a. This is i = %d\n", i);
+	ft_printf("This is array[i] = %d\n", array[i]);
+	ft_printf("This is the value inside stack a that i is pointing to = %d\n", array[i]);
 	while (array[i] < 2147483648)
 	{
-		if (number > array[i])
+		if (number < array[i])
 		{
 			lever = 1;
 			break ;
 		}
 		i++;
 	}
+	ft_printf(" WE are inside array_cost_b This is i = %d\n", i);
 	if (lever == 0)
-		i = find_the_number(array, max);
+		i = find_the_number_min(number, array, min);
 	amount = count_elements(array);
-	if (amount - i + 1 < i)
-		count->reverse_rotate_a = amount - i + 1;
+	if (amount - i < i)
+		count->reverse_rotate_a = amount - i;
 	else
 		count->rotate_a = i;
 }
@@ -182,16 +201,49 @@ void	final_calculations(t_move_count *count)
 	}
 }
 
+void	array_cost_max(long *array, t_move_count *count, long max)
+{
+	int	i;
+	int	amount;
+
+	i = 0;
+	while (array[i] != max)
+		i++;
+	amount = count_elements(array);
+	if (amount - i < i)
+		count->rotate_b = amount - i;
+	else
+		count->reverse_rotate_b = i;
+}
+
+void	array_cost_max_b(long *array, t_move_count *count, long max)
+{
+	int	i;
+	int	amount;
+
+	i = 0;
+	while (array[i] != max)
+		i++;
+	amount = count_elements(array);
+	if (amount - i < i)
+		count->rotate_a = amount - i;
+	else
+		count->reverse_rotate_a = i;
+}
+
 t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 {
 	t_move_count	count;
 
 	count = (t_move_count){};
-	if (data->amount_of_elements_a - i + 1 < i)
-		count.reverse_rotate_a = data->amount_of_elements_a - i + 1;
+	if (data->amount_of_elements_a - i < i)
+		count.reverse_rotate_a = data->amount_of_elements_a - i;
 	else
 		count.rotate_a = i;
-	array_cost(stack_a[i], stack_b, &count, data->max_b);
+	if (stack_a[i] > data->max_b)
+		array_cost_max(stack_b, &count, data->max_b);
+	else
+		array_cost(stack_a[i], stack_b, &count, data->max_b);
 	final_calculations(&count);
 	count.total = count.rotate_a + count.rotate_b + count.rotate_both
 		+ count.reverse_rotate_a + count.reverse_rotate_b
@@ -199,16 +251,37 @@ t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 	return (count);
 }
 
+void	array_cost_min(long *array, t_move_count *count, long min)
+{
+	int	i;
+	int	amount;
+
+	i = 0;
+	while (array[i] != min)
+		i++;
+	amount = count_elements(array);
+	if (amount - i < i)
+		count->reverse_rotate_a = amount - i;
+	else
+		count->rotate_a = i;
+}
+
 t_move_count	push_cost_b(long *stack_a, long *stack_b, int i, t_data *data)
 {
 	t_move_count	count;
 
 	count = (t_move_count){};
-	if (data->amount_of_elements_b - i + 1 < i)
-		count.reverse_rotate_b = data->amount_of_elements_b - i + 1;
+	if (data->amount_of_elements_b - i < i)
+		count.reverse_rotate_b = data->amount_of_elements_b - i;
 	else
 		count.rotate_b = i;
-	array_cost_b(stack_b[i], stack_a, &count, data->max_a);
+	ft_printf("This is stack_a[i] = %d\n", stack_a[i]);
+	if (stack_b[i] > data->max_a)
+		array_cost_max_b(stack_a, &count, data->max_a);
+	else if (stack_b[i] < data->min_a)
+		array_cost_min(stack_a, &count, data->min_a);
+	else
+		array_cost_b(stack_b[i], stack_a, &count, data->min_a);
 	final_calculations(&count);
 	count.total = count.rotate_a + count.rotate_b + count.rotate_both
 		+ count.reverse_rotate_a + count.reverse_rotate_b
@@ -275,6 +348,9 @@ void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 		data->max_b = *stack_a[0];
 	if (*stack_a[0] < data->min_b)
 		data->min_b = *stack_a[0];
+	ft_printf("We are inside push_cheapest\n");
+	ft_printf("This is stack_a[0] = %d\n", *stack_a[0]);
+	ft_printf("This is stack_b[0] = %d\n", *stack_b[0]);
 	push_into_b(*stack_a, *stack_b);
 }
 
@@ -296,7 +372,7 @@ void	push_cheapest_b(long **stack_a, long **stack_b, t_data *data)
 
 	i = 1;
 	cheapest = push_cost_b(*stack_a, *stack_b, 0, data);
-	while (i < data->amount_of_elements_a)
+	while (i < data->amount_of_elements_b)
 	{
 		tmp = push_cost_b(*stack_a, *stack_b, i, data);
 		if (tmp.total < cheapest.total)
@@ -307,8 +383,12 @@ void	push_cheapest_b(long **stack_a, long **stack_b, t_data *data)
 	use_rev_rotate(cheapest, stack_a, stack_b);
 	if (*stack_b[0] > data->max_a)
 		data->max_a = *stack_b[0];
-	if (*stack_a[0] < data->min_a)
+	if (*stack_b[0] < data->min_a)
 		data->min_a = *stack_b[0];
+	ft_printf("We are inside push_cheapest_b\n");
+	ft_printf("This is min_a = %d\n", data->min_a);
+	ft_printf("This is stack_a[0] = %d\n", *stack_a[0]);
+	ft_printf("This is stack_b[0] = %d\n", *stack_b[0]);
 	push_into_a(*stack_a, *stack_b);
 }
 
@@ -330,13 +410,17 @@ void	check_order(long *stack_a, long min_value, int amount)
 	int	rotate_amount;
 
 	i = 0;
+	ft_printf("We are inside check_order\n");
+	ft_printf("This is amount = %d\n", amount);
+	ft_printf("This is min_value = %d\n", min_value);
 	while (stack_a[i] != min_value)
 	{
 		i++;
 	}
-	if (amount - i + 1 < i)
+	ft_printf("This is i = %d\n", i);
+	if (amount - i < i)
 	{
-		rotate_amount = amount - i + 1;
+		rotate_amount = amount - i;
 		while (rotate_amount > 0)
 		{
 			reverse_rotate_a(stack_a);
@@ -369,7 +453,6 @@ void	print_stacks(long *stack_a, long *stack_b)
 void	sort_stack(long **stack_a, long **stack_b)
 {
 	t_data	data;
-
 	data = (t_data){};
 	data.amount_of_elements = count_elements(*stack_a);
 	data.amount_of_elements_a = data.amount_of_elements;
@@ -386,6 +469,8 @@ void	sort_stack(long **stack_a, long **stack_b)
 		ft_printf("After initial_sort\n");
 		print_stacks(*stack_a, *stack_b);
 		sort_three(stack_a);
+		data.min_a = (*stack_a)[0];
+		data.max_a = (*stack_a)[2];
 		ft_printf("After sort_three\n");
 		print_stacks(*stack_a, *stack_b);
 		push_back(*stack_a, *stack_b, &data);
