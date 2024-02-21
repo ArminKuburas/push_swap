@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:18:31 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 19:43:51 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:42:00 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv)
 	// ft_printf("Before sorting\n");
 	sort_stack(&stack_a, &stack_b);
 	// ft_printf("After sorting\n");
-	/*i = 0;
+	/*int i = 0;
 	while (stack_a[i] < 2147483648)
 	{
 		ft_printf("%d\n", stack_a[i]);

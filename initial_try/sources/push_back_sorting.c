@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:33:37 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 13:13:58 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:30:15 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	array_cost_max_b(long *array, t_move_count *count, long min)
 	while (array[i] != min)
 		i++;
 	amount = count_elements(array);
-	if (amount - i < i)
-		count->reverse_rotate_a = amount - i;
-	else
-		count->rotate_a = i;
+	count->reverse_rotate_a = amount - i;
+	count->rotate_a = i;
 }
 
 void	array_cost_min(long *array, t_move_count *count, long min)
@@ -36,10 +34,8 @@ void	array_cost_min(long *array, t_move_count *count, long min)
 	while (array[i] != min)
 		i++;
 	amount = count_elements(array);
-	if (amount - i < i)
-		count->reverse_rotate_a = amount - i;
-	else
-		count->rotate_a = i;
+	count->reverse_rotate_a = amount - i;
+	count->rotate_a = i;
 }
 
 void	array_cost_b(long number, long *array, t_move_count *count, long min)
@@ -64,10 +60,8 @@ void	array_cost_b(long number, long *array, t_move_count *count, long min)
 	if (lever == 0)
 		i = find_the_number_min(number, array, min);
 	amount = count_elements(array);
-	if (amount - i < i)
-		count->reverse_rotate_a = amount - i;
-	else
-		count->rotate_a = i;
+	count->reverse_rotate_a = amount - i;
+	count->rotate_a = i;
 }
 
 t_move_count	push_cost_b(long *stack_a, long *stack_b, int i, t_data *data)
@@ -75,10 +69,8 @@ t_move_count	push_cost_b(long *stack_a, long *stack_b, int i, t_data *data)
 	t_move_count	count;
 
 	count = (t_move_count){};
-	if (data->amount_of_elements_b - i < i)
-		count.reverse_rotate_b = data->amount_of_elements_b - i;
-	else
-		count.rotate_b = i;
+	count.reverse_rotate_b = data->amount_of_elements_b - i;
+	count.rotate_b = i;
 	if (stack_b[i] > data->max_a)
 		array_cost_max_b(stack_a, &count, data->min_a);
 	else if (stack_b[i] < data->min_a)

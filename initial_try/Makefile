@@ -20,6 +20,7 @@ SRCS = $(SRCDIR)/ft_free_substrings.c \
 	$(SRCDIR)/push_back_sorting.c \
 	$(SRCDIR)/push_back_utils.c \
 	$(SRCDIR)/sort_algorithm_utils.c \
+	$(SRCDIR)/pre_calculations_utils.c \
 
 LIBFT_SRC = $(LIBFTDIR)/ft_atoi.c \
 		$(LIBFTDIR)/ft_bzero.c \

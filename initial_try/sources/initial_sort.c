@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:48:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 19:45:11 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:24:22 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ static void	array_cost_max(long *array, t_move_count *count, long max)
 	while (array[i] != max)
 		i++;
 	amount = count_elements(array);
-	if (amount - i < i)
-		count->reverse_rotate_b = amount - i;
-	else
-		count->rotate_b = i;
+	count->reverse_rotate_b = amount - i;
+	count->rotate_b = i;
 }
 
 void	array_cost(long number, long *array, t_move_count *count, long max)
@@ -63,10 +61,8 @@ void	array_cost(long number, long *array, t_move_count *count, long max)
 	if (lever == 0)
 		i = find_the_number(array, max, number);
 	amount = count_elements(array);
-	if (amount - i < i)
-		count->reverse_rotate_b = amount - i;
-	else
-		count->rotate_b = i;
+	count->reverse_rotate_b = amount - i;
+	count->rotate_b = i;
 }
 
 static t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
@@ -74,10 +70,8 @@ static t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 	t_move_count	count;
 
 	count = (t_move_count){};
-	if (data->amount_of_elements_a - i < i)
-		count.reverse_rotate_a = data->amount_of_elements_a - i;
-	else
-		count.rotate_a = i;
+	count.reverse_rotate_a = data->amount_of_elements_a - i;
+	count.rotate_a = i;
 	if (stack_a[i] > data->max_b)
 		array_cost_max(stack_b, &count, data->max_b);
 	else

@@ -6,14 +6,44 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:39:42 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 20:12:29 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:29:10 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
+void	pre_calculations(t_move_count *count)
+{
+	int	individual_smallest_total;
+	int	rotate_total;
+	int	rev_rotate_total;
+
+	if (count->reverse_rotate_a == 0 || count->reverse_rotate_b == 0)
+		rev_rotate_total = -1;
+	else if (count->reverse_rotate_a > count->reverse_rotate_b)
+		rev_rotate_total = count->reverse_rotate_a;
+	else
+		rev_rotate_total = count->reverse_rotate_b;
+	if (count->rotate_a == 0 || count->rotate_b == 0)
+		rotate_total = -1;
+	else if (count->rotate_a > count->rotate_b)
+		rotate_total = count->rotate_a;
+	else
+		rotate_total = count->rotate_b;
+	if (count->rotate_a < count->reverse_rotate_a)
+		individual_smallest_total = count->rotate_a;
+	else
+		individual_smallest_total = count->reverse_rotate_a;
+	if (count->rotate_b < count->reverse_rotate_b)
+		individual_smallest_total += count->rotate_b;
+	else
+		individual_smallest_total += count->reverse_rotate_b;
+	pre_sort(count, individual_smallest_total, rotate_total, rev_rotate_total);
+}
+
 void	final_calculations(t_move_count *count)
 {
+	pre_calculations(count);
 	if (count->rotate_a > count->rotate_b)
 	{
 		count->rotate_both = count->rotate_b;
@@ -86,15 +116,4 @@ int	count_elements(long *array)
 	while (array[i] < 2147483648)
 		i++;
 	return (i);
-}
-
-void	sort_small_stack(long **stack_a, int amount_of_elements)
-{
-	if (amount_of_elements == 2)
-	{
-		if ((*stack_a)[0] > (*stack_a)[1])
-			swap_a(*stack_a);
-	}
-	else if (amount_of_elements == 3)
-		sort_three(stack_a);
 }

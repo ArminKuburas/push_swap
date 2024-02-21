@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 10:09:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 20:14:22 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:25:23 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,17 @@ void	check_order(long *stack_a, long min_value, int amount)
 			i--;
 		}
 	}
+}
+
+void	sort_small_stack(long **stack_a, int amount_of_elements)
+{
+	if (amount_of_elements == 2)
+	{
+		if ((*stack_a)[0] > (*stack_a)[1])
+			swap_a(*stack_a);
+	}
+	else if (amount_of_elements == 3)
+		sort_three(stack_a);
 }
 
 void	print_stack(long *stack_a, long *stack_b, t_data *data)

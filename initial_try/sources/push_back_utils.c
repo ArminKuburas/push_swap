@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:57:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 12:57:16 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:10:08 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,3 +25,4 @@ int	find_the_number_min(long number, long *array, long min)
 	}
 	return (i);
 }
+
