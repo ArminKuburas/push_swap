@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:19:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 13:14:36 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:10:41 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void	exit_handler(int error);
 void	swap_a(long *stack_a);
 void	swap_b(long *stack_b);
 void	swap_both(long *stack_a, long *stack_b);
-void	rotate_a(long *stack_a);
-void	rotate_b(long *stack_b);
+void	rotate_a(long *stack_a, int rr);
+void	rotate_b(long *stack_b, int rr);
 void	rotate_both(long *stack_a, long *stack_b);
-void	reverse_rotate_a(long *stack_a);
-void	reverse_rotate_b(long *stack_b);
+void	reverse_rotate_a(long *stack_a, int rr);
+void	reverse_rotate_b(long *stack_b, int rr);
 void	reverse_rotate_both(long *stack_a, long *stack_b);
 void	push_into_a(long *stack_a, long *stack_b);
 void	push_into_b(long *stack_a, long *stack_b);
@@ -69,6 +69,6 @@ void	sort_small_stack(long **stack_a, int amount_of_elements);
 void	push_back(long *stack_a, long *stack_b, t_data *data);
 int		find_the_number_min(long number, long *array, long min);
 void	sort_three(long **stack_a);
-
+void	print_stack(long *stack_a, long *stack_b, t_data *data);
 
 #endif

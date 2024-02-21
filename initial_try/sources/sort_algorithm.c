@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 10:09:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 13:08:39 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:14:22 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,19 @@ void	sort_three(long **stack_a)
 		swap_a(*stack_a);
 	else if ((*stack_a)[0] > (*stack_a)[1] && (*stack_a)[0] > (*stack_a)[2]
 		&& (*stack_a)[1] < (*stack_a)[2])
-		rotate_a(*stack_a);
+		rotate_a(*stack_a, 0);
 	else if ((*stack_a)[0] < (*stack_a)[1] && (*stack_a)[0] > (*stack_a)[2] &&
 		(*stack_a)[1] > (*stack_a)[2])
-		reverse_rotate_a(*stack_a);
+		reverse_rotate_a(*stack_a, 0);
 	else if ((*stack_a)[0] > (*stack_a)[1] && (*stack_a)[1] > (*stack_a)[2])
 	{
 		swap_a(*stack_a);
-		reverse_rotate_a(*stack_a);
+		reverse_rotate_a(*stack_a, 0);
 	}
 	else if ((*stack_a)[0] < (*stack_a)[1] && (*stack_a)[1] > (*stack_a)[2])
 	{
 		swap_a(*stack_a);
-		rotate_a(*stack_a);
+		rotate_a(*stack_a, 0);
 	}
 }
 
@@ -77,7 +77,7 @@ void	check_order(long *stack_a, long min_value, int amount)
 		rotate_amount = amount - i;
 		while (rotate_amount > 0)
 		{
-			reverse_rotate_a(stack_a);
+			reverse_rotate_a(stack_a, 0);
 			rotate_amount--;
 		}
 	}
@@ -85,10 +85,34 @@ void	check_order(long *stack_a, long min_value, int amount)
 	{
 		while (i > 0)
 		{
-			rotate_a(stack_a);
+			rotate_a(stack_a, 0);
 			i--;
 		}
 	}
+}
+
+void	print_stack(long *stack_a, long *stack_b, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	ft_putstr_fd("Stack A: ", 1);
+	while (i < data->amount_of_elements_a)
+	{
+		ft_putnbr_fd(stack_a[i], 1);
+		ft_putstr_fd(" ", 1);
+		i++;
+	}
+	ft_putstr_fd("\n", 1);
+	i = 0;
+	ft_putstr_fd("Stack B: ", 1);
+	while (i < data->amount_of_elements_b)
+	{
+		ft_putnbr_fd(stack_b[i], 1);
+		ft_putstr_fd(" ", 1);
+		i++;
+	}
+	ft_putstr_fd("\n", 1);
 }
 
 void	sort_stack(long **stack_a, long **stack_b)

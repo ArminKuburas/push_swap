@@ -6,20 +6,21 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 05:34:06 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/18 07:45:20 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:09:26 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void	reverse_rotate_a(long *stack_a)
+void	reverse_rotate_a(long *stack_a, int rr)
 {
 	long	tmp;
 	int		i;
 
 	if (stack_a[0] == 2147483648)
 		return ;
-	ft_putstr_fd("rra\n", 1);
+	if (rr == 0)
+		ft_putstr_fd("rra\n", 1);
 	i = 0;
 	while (stack_a[i] < 2147483648)
 		i++;
@@ -33,14 +34,15 @@ void	reverse_rotate_a(long *stack_a)
 	stack_a[0] = tmp;
 }
 
-void	reverse_rotate_b(long *stack_b)
+void	reverse_rotate_b(long *stack_b, int rr)
 {
 	long	tmp;
 	int		i;
 
 	if (stack_b[0] == 2147483648)
 		return ;
-	ft_putstr_fd("rrb\n", 1);
+	if (rr == 0)
+		ft_putstr_fd("rrb\n", 1);
 	i = 0;
 	while (stack_b[i] < 2147483648)
 		i++;
@@ -57,6 +59,6 @@ void	reverse_rotate_b(long *stack_b)
 void	reverse_rotate_both(long *stack_a, long *stack_b)
 {
 	ft_putstr_fd("rrr\n", 1);
-	reverse_rotate_a(stack_a);
-	reverse_rotate_b(stack_b);
+	reverse_rotate_a(stack_a, 1);
+	reverse_rotate_b(stack_b, 1);
 }

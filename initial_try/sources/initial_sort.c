@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:48:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 13:13:35 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:45:11 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static void	array_cost_max(long *array, t_move_count *count, long max)
 		i++;
 	amount = count_elements(array);
 	if (amount - i < i)
-		count->rotate_b = amount - i;
+		count->reverse_rotate_b = amount - i;
 	else
-		count->reverse_rotate_b = i;
+		count->rotate_b = i;
 }
 
 void	array_cost(long number, long *array, t_move_count *count, long max)
@@ -68,8 +68,6 @@ void	array_cost(long number, long *array, t_move_count *count, long max)
 	else
 		count->rotate_b = i;
 }
-
-
 
 static t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 {
@@ -112,6 +110,10 @@ static void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 		data->max_b = *stack_a[0];
 	if (*stack_a[0] < data->min_b)
 		data->min_b = *stack_a[0];
+	/*ft_printf("We are pushing into b\n");
+	ft_printf("This is max_b %d and min_b %d\n", data->max_b, data->min_b);
+	ft_printf("This is the stack_a[0]: %d\n", *stack_a[0]);
+	ft_printf("This is the stack_b[0]: %d\n", *stack_b[0]);*/
 	push_into_b(*stack_a, *stack_b);
 }
 
