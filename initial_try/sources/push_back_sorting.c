@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:33:37 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 11:52:02 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:13:58 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,42 +42,6 @@ void	array_cost_min(long *array, t_move_count *count, long min)
 		count->rotate_a = i;
 }
 
-t_move_count	push_cost_b(long *stack_a, long *stack_b, int i, t_data *data)
-{
-	t_move_count	count;
-
-	count = (t_move_count){};
-	if (data->amount_of_elements_b - i < i)
-		count.reverse_rotate_b = data->amount_of_elements_b - i;
-	else
-		count.rotate_b = i;
-	if (stack_b[i] > data->max_a)
-		array_cost_max_b(stack_a, &count, data->min_a);
-	else if (stack_b[i] < data->min_a)
-		array_cost_min(stack_a, &count, data->min_a);
-	else
-		array_cost_b(stack_b[i], stack_a, &count, data->min_a);
-	final_calculations(&count);
-	count.total = count.rotate_a + count.rotate_b + count.rotate_both
-		+ count.reverse_rotate_a + count.reverse_rotate_b
-		+ count.reverse_rotate_both;
-	return (count);
-}
-
-int	find_the_number_min(long number, long *array, long min)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != min)
-	{
-		if (number < array[i])
-			break ;
-		i++;
-	}
-	return (i);
-}
-
 void	array_cost_b(long number, long *array, t_move_count *count, long min)
 {
 	int	i;
@@ -105,6 +69,30 @@ void	array_cost_b(long number, long *array, t_move_count *count, long min)
 	else
 		count->rotate_a = i;
 }
+
+t_move_count	push_cost_b(long *stack_a, long *stack_b, int i, t_data *data)
+{
+	t_move_count	count;
+
+	count = (t_move_count){};
+	if (data->amount_of_elements_b - i < i)
+		count.reverse_rotate_b = data->amount_of_elements_b - i;
+	else
+		count.rotate_b = i;
+	if (stack_b[i] > data->max_a)
+		array_cost_max_b(stack_a, &count, data->min_a);
+	else if (stack_b[i] < data->min_a)
+		array_cost_min(stack_a, &count, data->min_a);
+	else
+		array_cost_b(stack_b[i], stack_a, &count, data->min_a);
+	final_calculations(&count);
+	count.total = count.rotate_a + count.rotate_b + count.rotate_both
+		+ count.reverse_rotate_a + count.reverse_rotate_b
+		+ count.reverse_rotate_both;
+	return (count);
+}
+
+
 
 void	push_cheapest_b(long **stack_a, long **stack_b, t_data *data)
 {

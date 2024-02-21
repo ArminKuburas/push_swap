@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:19:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/20 12:33:45 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:14:36 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,15 @@ void	reverse_rotate_both(long *stack_a, long *stack_b);
 void	push_into_a(long *stack_a, long *stack_b);
 void	push_into_b(long *stack_a, long *stack_b);
 void	sort_stack(long **stack_a, long **stack_b);
+void	initial_sort(long **stack_a, long **stack_b, t_data *data);
+void	final_calculations(t_move_count *count);
+void	use_rotate(t_move_count cheapest, long **stack_a, long **stack_b);
+void	use_rev_rotate(t_move_count cheapest, long **stack_a, long **stack_b);
+int		count_elements(long *array);
+void	sort_small_stack(long **stack_a, int amount_of_elements);
+void	push_back(long *stack_a, long *stack_b, t_data *data);
+int		find_the_number_min(long number, long *array, long min);
+void	sort_three(long **stack_a);
 
 
 #endif

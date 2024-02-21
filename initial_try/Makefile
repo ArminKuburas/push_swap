@@ -16,6 +16,10 @@ SRCS = $(SRCDIR)/ft_free_substrings.c \
 	$(SRCDIR)/sort_algorithm.c \
 	$(SRCDIR)/swap_functions.c \
 	$(SRCDIR)/exit_handler.c \
+	$(SRCDIR)/initial_sort.c \
+	$(SRCDIR)/push_back_sorting.c \
+	$(SRCDIR)/push_back_utils.c \
+	$(SRCDIR)/sort_algorithm_utils.c \
 
 LIBFT_SRC = $(LIBFTDIR)/ft_atoi.c \
 		$(LIBFTDIR)/ft_bzero.c \

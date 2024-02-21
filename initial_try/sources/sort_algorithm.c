@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 10:09:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 11:57:07 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:08:39 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,34 +62,6 @@ void	sort_three(long **stack_a)
 	}
 }
 
-void	array_cost(long number, long *array, t_move_count *count, long max)
-{
-	int	i;
-	int	lever;
-	int	amount;
-
-	i = 0;
-	lever = 0;
-	while (array[i] != max)
-		i++;
-	while (array[i] < 2147483648)
-	{
-		if (number > array[i])
-		{
-			lever = 1;
-			break ;
-		}
-		i++;
-	}
-	if (lever == 0)
-		i = find_the_number(array, max);
-	amount = count_elements(array);
-	if (amount - i < i)
-		count->reverse_rotate_b = amount - i;
-	else
-		count->rotate_b = i;
-}
-
 void	check_order(long *stack_a, long min_value, int amount)
 {
 	int	i;
@@ -122,6 +94,7 @@ void	check_order(long *stack_a, long min_value, int amount)
 void	sort_stack(long **stack_a, long **stack_b)
 {
 	t_data	data;
+
 	data = (t_data){};
 	data.amount_of_elements = count_elements(*stack_a);
 	data.amount_of_elements_a = data.amount_of_elements;

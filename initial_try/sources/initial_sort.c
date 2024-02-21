@@ -6,13 +6,27 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:48:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 11:56:35 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:13:35 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void	array_cost_max(long *array, t_move_count *count, long max)
+int	find_the_number(long *array, int max, long number)
+{
+	int		i;
+
+	i = 0;
+	while (array[i] != max)
+	{
+		if (number > array[i])
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+static void	array_cost_max(long *array, t_move_count *count, long max)
 {
 	int	i;
 	int	amount;
@@ -27,7 +41,37 @@ void	array_cost_max(long *array, t_move_count *count, long max)
 		count->reverse_rotate_b = i;
 }
 
-t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
+void	array_cost(long number, long *array, t_move_count *count, long max)
+{
+	int	i;
+	int	lever;
+	int	amount;
+
+	i = 0;
+	lever = 0;
+	while (array[i] != max)
+		i++;
+	while (array[i] < 2147483648)
+	{
+		if (number > array[i])
+		{
+			lever = 1;
+			break ;
+		}
+		i++;
+	}
+	if (lever == 0)
+		i = find_the_number(array, max, number);
+	amount = count_elements(array);
+	if (amount - i < i)
+		count->reverse_rotate_b = amount - i;
+	else
+		count->rotate_b = i;
+}
+
+
+
+static t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 {
 	t_move_count	count;
 
@@ -47,17 +91,7 @@ t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 	return (count);
 }
 
-int	find_the_number(long *stack_b, int value)
-{
-	int		i;
-
-	i = 0;
-	while (stack_b[i] != value)
-		i++;
-	return (i);
-}
-
-void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
+static void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 {
 	int				i;
 	t_move_count	cheapest;
