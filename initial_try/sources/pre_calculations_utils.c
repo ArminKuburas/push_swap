@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 23:17:52 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 23:32:20 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/22 11:50:56 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,5 @@ void	pre_sort(t_move_count *count, int ist, int rt, int rrt)
 			reset_reverse_rotate_counts(count);
 	}
 	else
-	{
-		if (ist < rrt)
-			compare_and_reset_counts(count);
-		else
-			reset_rotate_counts(count);
-	}
+		compare_and_reset_counts(count);
 }
