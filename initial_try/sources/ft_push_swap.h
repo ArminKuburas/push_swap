@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:19:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 23:27:48 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/24 23:29:05 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ enum e_errors
 	MALLOC_ERROR = 2,
 	WRONG_ARGUMENTS = 3
 };
+
+typedef struct s_new_count
+{
+	int	rotate_a;
+	int	rotate_a_again;
+	int	swap_a;
+	int	push_cost;
+	int	reverse_rotate_a;
+	int	reverse_rotate_a_again;
+	int	reduce;
+	int	total;
+}	t_new_count;
 
 typedef struct s_move_count
 {

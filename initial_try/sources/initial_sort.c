@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:48:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/23 10:21:25 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/25 02:09:02 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,15 @@ static void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 
 void	initial_sort(long **stack_a, long **stack_b, t_data *data)
 {
-	while (data->amount_of_elements_a > 3)
+	while (data->amount_of_elements_a > 7)
 	{
 		push_cheapest(stack_a, stack_b, data);
+		data->amount_of_elements_a--;
+		data->amount_of_elements_b++;
+	}
+	while (data->amount_of_elements_a > 3)
+	{
+		push_into_b(*stack_a, *stack_b);
 		data->amount_of_elements_a--;
 		data->amount_of_elements_b++;
 	}
