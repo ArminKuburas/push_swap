@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:48:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/25 02:09:02 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:00:19 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	array_cost(long number, long *array, t_move_count *count, long max)
 		i++;
 	}
 	if (lever == 0)
-		i = find_the_number(array, max, number);
+		i = find_the_number_max(array, max, number);
 	amount = count_elements(array);
 	count->reverse_rotate_b = amount - i;
 	count->rotate_b = i;
@@ -104,24 +104,14 @@ static void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 		data->max_b = *stack_a[0];
 	if (*stack_a[0] < data->min_b)
 		data->min_b = *stack_a[0];
-	/*ft_printf("We are pushing into b\n");
-	ft_printf("This is max_b %d and min_b %d\n", data->max_b, data->min_b);
-	ft_printf("This is the stack_a[0]: %d\n", *stack_a[0]);
-	ft_printf("This is the stack_b[0]: %d\n", *stack_b[0]);*/
 	push_into_b(*stack_a, *stack_b);
 }
 
 void	initial_sort(long **stack_a, long **stack_b, t_data *data)
 {
-	while (data->amount_of_elements_a > 7)
-	{
-		push_cheapest(stack_a, stack_b, data);
-		data->amount_of_elements_a--;
-		data->amount_of_elements_b++;
-	}
 	while (data->amount_of_elements_a > 3)
 	{
-		push_into_b(*stack_a, *stack_b);
+		push_cheapest(stack_a, stack_b, data);
 		data->amount_of_elements_a--;
 		data->amount_of_elements_b++;
 	}

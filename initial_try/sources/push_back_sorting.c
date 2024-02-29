@@ -6,24 +6,11 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:33:37 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 23:30:15 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:28:23 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
-
-void	array_cost_max_b(long *array, t_move_count *count, long min)
-{
-	int	i;
-	int	amount;
-
-	i = 0;
-	while (array[i] != min)
-		i++;
-	amount = count_elements(array);
-	count->reverse_rotate_a = amount - i;
-	count->rotate_a = i;
-}
 
 void	array_cost_min(long *array, t_move_count *count, long min)
 {
@@ -72,7 +59,7 @@ t_move_count	push_cost_b(long *stack_a, long *stack_b, int i, t_data *data)
 	count.reverse_rotate_b = data->amount_of_elements_b - i;
 	count.rotate_b = i;
 	if (stack_b[i] > data->max_a)
-		array_cost_max_b(stack_a, &count, data->min_a);
+		array_cost_min(stack_a, &count, data->min_a);
 	else if (stack_b[i] < data->min_a)
 		array_cost_min(stack_a, &count, data->min_a);
 	else
@@ -83,8 +70,6 @@ t_move_count	push_cost_b(long *stack_a, long *stack_b, int i, t_data *data)
 		+ count.reverse_rotate_both;
 	return (count);
 }
-
-
 
 void	push_cheapest_b(long **stack_a, long **stack_b, t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:18:31 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 23:42:00 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:43:47 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,20 @@ int	check_duplicate(long *stack_a)
 	return (0);
 }
 
+int	check_if_already_sorted(long *stack_a)
+{
+	int	i;
+
+	i = 0;
+	while (stack_a[i] != 2147483648)
+	{
+		if (stack_a[i] > stack_a[i + 1])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	long	*stack_a;
@@ -48,20 +62,8 @@ int	main(int argc, char **argv)
 		free(stack_b);
 		exit_handler(WRONG_ARGUMENTS);
 	}
-	// while (stack_a[i] < 2147483648)
-	// {
-	// 	ft_printf("%d\n", stack_a[i]);
-	// 	i++;
-	// }
-	// ft_printf("Before sorting\n");
-	sort_stack(&stack_a, &stack_b);
-	// ft_printf("After sorting\n");
-	/*int i = 0;
-	while (stack_a[i] < 2147483648)
-	{
-		ft_printf("%d\n", stack_a[i]);
-		i++;
-	}*/
+	if (check_if_already_sorted(stack_a) == 1)
+		sort_stack(&stack_a, &stack_b);
 	free(stack_a);
 	free(stack_b);
 	return (0);

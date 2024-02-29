@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 03:30:12 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/16 10:21:51 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:46:49 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,15 @@ int	ft_isinteger(char *str)
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	while (str[i])
+	if (ft_strlen(str) == (size_t)i)
+		return (1);
+	while (str[i] != '\0')
 	{
 		if (!ft_isdigit(str[i]))
-			return (0);
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	check_arguments(char **args)
@@ -103,10 +105,12 @@ int	check_arguments(char **args)
 	{
 		if (ft_strlen(args[i]) > 11)
 			return (-1);
-		if (!ft_isinteger(args[i]))
+		if (ft_isinteger(args[i]) == 1)
 			return (-1);
 		i++;
 	}
+	if (i < 1)
+		return (-1);
 	return (i);
 }
 
