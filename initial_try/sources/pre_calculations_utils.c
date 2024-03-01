@@ -6,25 +6,25 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 23:17:52 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/22 11:50:56 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:48:59 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-static void	reset_rotate_counts(t_move_count *count)
+static void	reset_rotate_counts(t_m_count *count)
 {
 	count->rotate_a = 0;
 	count->rotate_b = 0;
 }
 
-static void	reset_reverse_rotate_counts(t_move_count *count)
+static void	reset_reverse_rotate_counts(t_m_count *count)
 {
 	count->reverse_rotate_a = 0;
 	count->reverse_rotate_b = 0;
 }
 
-static void	compare_and_reset_counts(t_move_count *count)
+static void	compare_and_reset_counts(t_m_count *count)
 {
 	if (count->rotate_a < count->reverse_rotate_a)
 		count->reverse_rotate_a = 0;
@@ -36,7 +36,7 @@ static void	compare_and_reset_counts(t_move_count *count)
 		count->rotate_b = 0;
 }
 
-static void	all_values_exist(t_move_count *count, int ist, int rt, int rrt)
+static void	all_values_exist(t_m_count *count, int ist, int rt, int rrt)
 {
 	if (ist < rt && ist < rrt)
 		compare_and_reset_counts(count);
@@ -46,7 +46,7 @@ static void	all_values_exist(t_move_count *count, int ist, int rt, int rrt)
 		reset_rotate_counts(count);
 }
 
-void	pre_sort(t_move_count *count, int ist, int rt, int rrt)
+void	pre_sort(t_m_count *count, int ist, int rt, int rrt)
 {
 	if (rt != -1 && rrt != -1)
 		all_values_exist(count, ist, rt, rrt);

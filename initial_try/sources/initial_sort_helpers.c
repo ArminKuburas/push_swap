@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initial_sort.c                                     :+:      :+:    :+:   */
+/*   initial_sort_helpers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:48:57 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/29 15:00:19 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:55:51 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	find_the_number(long *array, int max, long number)
 	return (i);
 }
 
-static void	array_cost_max(long *array, t_move_count *count, long max)
+void	array_cost_max(long *array, t_m_count *count, long max)
 {
 	int	i;
 	int	amount;
@@ -39,7 +39,7 @@ static void	array_cost_max(long *array, t_move_count *count, long max)
 	count->rotate_b = i;
 }
 
-void	array_cost(long number, long *array, t_move_count *count, long max)
+void	array_cost(long number, long *array, t_m_count *count, long max)
 {
 	int	i;
 	int	lever;
@@ -59,17 +59,17 @@ void	array_cost(long number, long *array, t_move_count *count, long max)
 		i++;
 	}
 	if (lever == 0)
-		i = find_the_number_max(array, max, number);
+		i = find_the_number(array, max, number);
 	amount = count_elements(array);
 	count->reverse_rotate_b = amount - i;
 	count->rotate_b = i;
 }
 
-static t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
+t_m_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 {
-	t_move_count	count;
+	t_m_count	count;
 
-	count = (t_move_count){};
+	count = (t_m_count){};
 	count.reverse_rotate_a = data->amount_of_elements_a - i;
 	count.rotate_a = i;
 	if (stack_a[i] > data->max_b)
@@ -83,11 +83,11 @@ static t_move_count	push_cost(long *stack_a, long *stack_b, int i, t_data *data)
 	return (count);
 }
 
-static void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
+void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 {
-	int				i;
-	t_move_count	cheapest;
-	t_move_count	tmp;
+	int			i;
+	t_m_count	cheapest;
+	t_m_count	tmp;
 
 	i = 1;
 	cheapest = push_cost(*stack_a, *stack_b, 0, data);
@@ -105,14 +105,4 @@ static void	push_cheapest(long **stack_a, long **stack_b, t_data *data)
 	if (*stack_a[0] < data->min_b)
 		data->min_b = *stack_a[0];
 	push_into_b(*stack_a, *stack_b);
-}
-
-void	initial_sort(long **stack_a, long **stack_b, t_data *data)
-{
-	while (data->amount_of_elements_a > 3)
-	{
-		push_cheapest(stack_a, stack_b, data);
-		data->amount_of_elements_a--;
-		data->amount_of_elements_b++;
-	}
 }

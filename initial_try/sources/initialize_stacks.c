@@ -6,36 +6,31 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 03:30:12 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/29 11:46:49 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:01:20 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void	ft_bmax(long *arr, int size)
+int	stack_allocator(long **stack_a, long **stack_b, int amount_of_args)
 {
 	int	i;
 
-	i = 0;
-	while (i < size)
-	{
-		arr[i] = 2147483648;
-		i++;
-	}
-}
-
-int	stack_allocator(long **stack_a, long **stack_b, int amount_of_arguments)
-{
-	*stack_a = (long *)malloc(sizeof(long) * (amount_of_arguments + 1));
+	*stack_a = (long *)malloc(sizeof(long) * (amount_of_args + 1));
 	if (!(*stack_a))
 		return (MALLOC_ERROR);
-	*stack_b = (long *)malloc(sizeof(long) * (amount_of_arguments + 1));
+	*stack_b = (long *)malloc(sizeof(long) * (amount_of_args + 1));
 	if (!*stack_b)
 	{
 		free(*stack_a);
 		return (MALLOC_ERROR);
 	}
-	ft_bmax(*stack_b, amount_of_arguments + 1);
+	i = 0;
+	while (i < amount_of_args + 1)
+	{
+		(*stack_b)[i] = 2147483648;
+		i++;
+	}
 	return (0);
 }
 
@@ -112,32 +107,4 @@ int	check_arguments(char **args)
 	if (i < 1)
 		return (-1);
 	return (i);
-}
-
-void	init_stacks(long **stack_a, long **stack_b, int argc, char **argv)
-{
-	char	**args;
-	int		i;
-
-	args = NULL;
-	if (argument_creator(argc, argv, &args) == MALLOC_ERROR)
-		exit_handler(MALLOC_ERROR);
-	i = check_arguments(args);
-	if (i == -1)
-	{
-		ft_free_substrings(&args);
-		exit_handler(WRONG_ARGUMENTS);
-	}
-	if (stack_allocator(stack_a, stack_b, i) == MALLOC_ERROR)
-	{
-		ft_free_substrings(&args);
-		exit_handler(MALLOC_ERROR);
-	}
-	i = turn_into_stack(stack_a, args);
-	ft_free_substrings(&args);
-	if (i == WRONG_ARGUMENTS)
-	{
-		free(*stack_b);
-		exit_handler(WRONG_ARGUMENTS);
-	}
 }

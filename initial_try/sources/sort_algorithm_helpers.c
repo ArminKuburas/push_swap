@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 10:09:03 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/25 00:01:20 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:31:45 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,47 +102,12 @@ void	sort_small_stack(long **stack_a, int amount_of_elements)
 		sort_three(stack_a);
 }
 
-void	print_stack(long *stack_a, long *stack_b, t_data *data)
+void	initial_sort(long **stack_a, long **stack_b, t_data *data)
 {
-	int	i;
-
-	i = 0;
-	ft_putstr_fd("Stack A: ", 1);
-	while (i < data->amount_of_elements_a)
+	while (data->amount_of_elements_a > 3)
 	{
-		ft_putnbr_fd(stack_a[i], 1);
-		ft_putstr_fd(" ", 1);
-		i++;
-	}
-	ft_putstr_fd("\n", 1);
-	i = 0;
-	ft_putstr_fd("Stack B: ", 1);
-	while (i < data->amount_of_elements_b)
-	{
-		ft_putnbr_fd(stack_b[i], 1);
-		ft_putstr_fd(" ", 1);
-		i++;
-	}
-	ft_putstr_fd("\n", 1);
-}
-
-void	sort_stack(long **stack_a, long **stack_b)
-{
-	t_data	data;
-
-	data = (t_data){};
-	data.amount_of_elements = count_elements(*stack_a);
-	data.amount_of_elements_a = data.amount_of_elements;
-	if (data.amount_of_elements <= 3)
-		sort_small_stack(stack_a, data.amount_of_elements);
-	else
-	{
-		initial_push(*stack_a, *stack_b, &data);
-		initial_sort(stack_a, stack_b, &data);
-		sort_three(stack_a);
-		data.min_a = (*stack_a)[0];
-		data.max_a = (*stack_a)[2];
-		push_back(*stack_a, *stack_b, &data);
-		check_order(*stack_a, data.min_a, data.amount_of_elements_a);
+		push_cheapest(stack_a, stack_b, data);
+		data->amount_of_elements_a--;
+		data->amount_of_elements_b++;
 	}
 }

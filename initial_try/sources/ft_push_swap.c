@@ -6,7 +6,7 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:18:31 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/29 11:43:47 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:13:43 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,55 @@ int	check_if_already_sorted(long *stack_a)
 	return (0);
 }
 
+void	sort_stack(long **stack_a, long **stack_b)
+{
+	t_data	data;
+
+	data = (t_data){};
+	data.amount_of_elements = count_elements(*stack_a);
+	data.amount_of_elements_a = data.amount_of_elements;
+	if (data.amount_of_elements <= 3)
+		sort_small_stack(stack_a, data.amount_of_elements);
+	else
+	{
+		initial_push(*stack_a, *stack_b, &data);
+		initial_sort(stack_a, stack_b, &data);
+		sort_three(stack_a);
+		data.min_a = (*stack_a)[0];
+		data.max_a = (*stack_a)[2];
+		push_back(*stack_a, *stack_b, &data);
+		check_order(*stack_a, data.min_a, data.amount_of_elements_a);
+	}
+}
+
+void	init_stacks(long **stack_a, long **stack_b, int argc, char **argv)
+{
+	char	**args;
+	int		i;
+
+	args = NULL;
+	if (argument_creator(argc, argv, &args) == MALLOC_ERROR)
+		exit_handler(MALLOC_ERROR);
+	i = check_arguments(args);
+	if (i == -1)
+	{
+		ft_free_substrings(&args);
+		exit_handler(WRONG_ARGUMENTS);
+	}
+	if (stack_allocator(stack_a, stack_b, i) == MALLOC_ERROR)
+	{
+		ft_free_substrings(&args);
+		exit_handler(MALLOC_ERROR);
+	}
+	i = turn_into_stack(stack_a, args);
+	ft_free_substrings(&args);
+	if (i == WRONG_ARGUMENTS)
+	{
+		free(*stack_b);
+		exit_handler(WRONG_ARGUMENTS);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	long	*stack_a;
@@ -55,6 +104,8 @@ int	main(int argc, char **argv)
 	stack_b = NULL;
 	if (argc < 2)
 		return (0);
+	if (check_if_empty(argc, argv) == 1)
+		exit_handler(WRONG_ARGUMENTS);
 	init_stacks(&stack_a, &stack_b, argc, argv);
 	if (check_duplicate(stack_a) == WRONG_ARGUMENTS)
 	{

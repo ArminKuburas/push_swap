@@ -6,13 +6,13 @@
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:39:42 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/21 23:29:10 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:49:38 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void	pre_calculations(t_move_count *count)
+void	pre_calculations(t_m_count *count)
 {
 	int	individual_smallest_total;
 	int	rotate_total;
@@ -41,7 +41,7 @@ void	pre_calculations(t_move_count *count)
 	pre_sort(count, individual_smallest_total, rotate_total, rev_rotate_total);
 }
 
-void	final_calculations(t_move_count *count)
+void	final_calculations(t_m_count *count)
 {
 	pre_calculations(count);
 	if (count->rotate_a > count->rotate_b)
@@ -70,7 +70,7 @@ void	final_calculations(t_move_count *count)
 	}
 }
 
-void	use_rotate(t_move_count cheapest, long **stack_a, long **stack_b)
+void	use_rotate(t_m_count cheapest, long **stack_a, long **stack_b)
 {
 	while (cheapest.rotate_a > 0)
 	{
@@ -89,7 +89,7 @@ void	use_rotate(t_move_count cheapest, long **stack_a, long **stack_b)
 	}
 }
 
-void	use_rev_rotate(t_move_count cheapest, long **stack_a, long **stack_b)
+void	use_rev_rotate(t_m_count cheapest, long **stack_a, long **stack_b)
 {
 	while (cheapest.reverse_rotate_a > 0)
 	{

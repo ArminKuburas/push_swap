@@ -13,10 +13,10 @@ SRCS = $(SRCDIR)/ft_free_substrings.c \
 	$(SRCDIR)/push_functions.c \
 	$(SRCDIR)/reverse_rotate_functions.c \
 	$(SRCDIR)/rotate_functions.c \
-	$(SRCDIR)/sort_algorithm.c \
+	$(SRCDIR)/sort_algorithm_helpers.c \
 	$(SRCDIR)/swap_functions.c \
-	$(SRCDIR)/exit_handler.c \
-	$(SRCDIR)/initial_sort.c \
+	$(SRCDIR)/push_swap_utils.c \
+	$(SRCDIR)/initial_sort_helpers.c \
 	$(SRCDIR)/push_back_sorting.c \
 	$(SRCDIR)/push_back_utils.c \
 	$(SRCDIR)/sort_algorithm_utils.c \

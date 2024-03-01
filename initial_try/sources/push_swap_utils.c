@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_handler.c                                     :+:      :+:    :+:   */
+/*   push_swap_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akuburas <akuburas@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 03:30:31 by akuburas          #+#    #+#             */
-/*   Updated: 2024/02/16 03:47:43 by akuburas         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:16:38 by akuburas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,18 @@ void	exit_handler(int error)
 	else if (error == WRONG_ARGUMENTS)
 		ft_putstr_fd("Error\n", 2);
 	exit(1);
+}
+
+int	check_if_empty(int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (i < argc)
+	{
+		if (ft_strcmp(argv[i], "") == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
